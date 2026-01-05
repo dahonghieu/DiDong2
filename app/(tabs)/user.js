@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-
+  // Alert, // <-- THAY ĐỔI: Không dùng Alert nữa
   Platform,
 } from "react-native";
 import { UserContext } from "../../contexts/UserContext";
@@ -16,7 +16,7 @@ import { imageUrl } from "../../services/config.js";
 import { useNotificationModal } from "../../hooks/useNotificationModal";
 import NotificationModal from "../../components/common/NotificationModal";
 
-
+// --- Bảng màu nhất quán và tối ưu ---
 const COLORS = {
   primary: "#FF5733",
   secondary: "#FFB300",
@@ -28,7 +28,7 @@ const COLORS = {
   border: "#F0F0F0",
 };
 
-
+// Component MenuItem tái sử dụng
 const MenuItem = ({ iconName, title, route, router, isLast = false }) => (
   <TouchableOpacity
     style={[styles.menuItem, isLast && { borderBottomWidth: 0 }]}
@@ -42,7 +42,7 @@ const MenuItem = ({ iconName, title, route, router, isLast = false }) => (
   </TouchableOpacity>
 );
 
-
+// Component ActionItem (Thao tác nhanh dưới header)
 const ActionItem = ({ iconName, title, route, router }) => (
   <TouchableOpacity
     style={styles.actionItem}
@@ -56,7 +56,7 @@ const ActionItem = ({ iconName, title, route, router }) => (
 );
 
 export default function UserScreen() {
-
+  // <-- THAY ĐỔI: Lấy thêm hàm showWarning
   const { modalProps, showError, showSuccess, showWarning } =
     useNotificationModal();
   const { user, logout } = useContext(UserContext);
@@ -69,10 +69,10 @@ export default function UserScreen() {
     }, [user])
   );
 
-
+  // --- Trường hợp CHƯA ĐĂNG NHẬP ---
   if (!user) {
     return (
-
+      // <-- THAY ĐỔI: Bọc ScrollView trong 1 View để chứa Modal
       <View style={styles.unloggedInScreen}>
         <ScrollView contentContainerStyle={{ paddingVertical: 40 }}>
           <View style={styles.unloggedInCard}>
@@ -135,18 +135,18 @@ export default function UserScreen() {
             </View>
           </View>
         </ScrollView>
-
+        {/* <-- THAY ĐỔI: Thêm Modal vào đây --> */}
         <NotificationModal {...modalProps} />
       </View>
     );
   }
 
-
+  // --- Trường hợp ĐÃ ĐĂNG NHẬP ---
   return (
-
+    // <-- THAY ĐỔI: Bọc ScrollView trong 1 View để chứa Modal
     <View style={styles.screen}>
       <ScrollView key={refreshKey}>
-
+        {/* HEADER (Thông tin người dùng) */}
         <View style={styles.header}>
           <View style={styles.avatarWrapper}>
             <Image
@@ -155,7 +155,7 @@ export default function UserScreen() {
             />
             <TouchableOpacity
               style={styles.editIcon}
-              onPress={() => router.push("/user")}
+              onPress={() => router.push("/user/edit-profile")}
             >
               <Ionicons name="pencil-outline" size={16} color={COLORS.card} />
             </TouchableOpacity>
@@ -170,81 +170,81 @@ export default function UserScreen() {
           </View>
         </View>
 
-
+        {/* ACTION BAR NHANH */}
         <View style={styles.actionBar}>
           <ActionItem
             iconName="receipt-outline"
             title="Đơn hàng"
-            route="/user"
+            route="/order"
             router={router}
           />
           <ActionItem
             iconName="heart-outline"
             title="Yêu thích"
-            route="/user"
+            route="/favorites"
             router={router}
           />
           <ActionItem
             iconName="location-outline"
             title="Địa chỉ"
-            route="/user"
+            route="/user/address"
             router={router}
           />
           <ActionItem
             iconName="headset-outline"
             title="Hỗ trợ"
-            route="/user"
+            route="/user/support"
             router={router}
           />
         </View>
 
-
+        {/* MENU: TÀI KHOẢN */}
         <View style={styles.sectionModern}>
           <Text style={styles.sectionTitleModern}>Quản lý tài khoản</Text>
           <MenuItem
             iconName="person-outline"
             title="Thông tin cá nhân"
-            route="/user"
+            route="/user/edit-profile"
             router={router}
           />
           <MenuItem
             iconName="lock-closed-outline"
             title="Đổi mật khẩu"
-            route="/user"
+            route="/user/change-password"
             router={router}
           />
           <MenuItem
             iconName="wallet-outline"
             title="Lịch sử mua hàng"
-            route="/user"
+            route="/order/orderHistory"
             router={router}
             isLast={true}
           />
         </View>
 
-
+        {/* MENU: ỨNG DỤNG */}
         <View style={styles.sectionModern}>
           <Text style={styles.sectionTitleModern}>Ứng dụng</Text>
           <MenuItem
             iconName="options-outline"
             title="Cài đặt chung"
-            route="/user"
+            route="/settings"
             router={router}
             isLast={false}
           />
           <MenuItem
             iconName="information-circle-outline"
             title="Về chúng tôi"
-            route="/user"
+            route="/about"
             router={router}
             isLast={true}
           />
         </View>
 
-
+        {/* NÚT ĐĂNG XUẤT */}
         <TouchableOpacity
           style={styles.logoutButtonModern}
-
+          // <-- THAY ĐỔI: Thay Alert.alert bằng showWarning
           onPress={() =>
             showWarning(
               "Xác nhận đăng xuất",
@@ -254,7 +254,7 @@ export default function UserScreen() {
                 {
                   text: "Đăng xuất",
                   onPress: logout,
-
+                  // Tự động dùng style "destructive" (màu cam)
                 },
               ]
             )
@@ -266,18 +266,18 @@ export default function UserScreen() {
         <View style={{ height: 40 }} />
       </ScrollView>
 
-
+      {/* <-- THAY ĐỔI: Thêm Modal vào đây --> */}
       <NotificationModal {...modalProps} />
     </View>
   );
 }
 
-
+// ... (Toàn bộ styles giữ nguyên)
 const styles = StyleSheet.create({
-
+  // --- CHUNG ---
   screen: { flex: 1, backgroundColor: COLORS.background },
 
-
+  // --- HEADER (Đã Đăng Nhập) ---
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -293,17 +293,17 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   avatar: {
-    width: 70,
+    width: 70, // Kích thước gọn hơn
     height: 70,
     borderRadius: 35,
     borderWidth: 2,
-    borderColor: COLORS.primary,
+    borderColor: COLORS.primary, // Viền màu nhấn
   },
   editIcon: {
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.primary, // Màu nhấn
     padding: 5,
     borderRadius: 12,
     borderWidth: 2,
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
   name: { fontSize: 22, fontWeight: "700", color: COLORS.text },
   email: { fontSize: 14, color: COLORS.subtext, marginTop: 4 },
 
-
+  // --- QUICK ACTION BAR ---
   actionBar: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#FFF3EF",
+    backgroundColor: "#FFF3EF", // Nền màu nhẹ
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 5,
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-
+  // --- MENU SECTION (Đã Đăng Nhập) ---
   sectionModern: {
     marginBottom: 20,
     marginHorizontal: 15,
@@ -388,20 +388,20 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 15,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
+    borderBottomColor: COLORS.border, // Viền rất nhẹ
   },
   iconCircle: {
     width: 35,
     height: 35,
     borderRadius: 18,
-    backgroundColor: "#FFF3EF",
+    backgroundColor: "#FFF3EF", // Nền màu nhẹ
     justifyContent: "center",
     alignItems: "center",
     marginRight: 15,
   },
   menuText: { flex: 1, fontSize: 16, color: COLORS.text, fontWeight: "500" },
 
-
+  // --- NÚT ĐĂNG XUẤT (Đã Đăng Nhập) ---
   logoutButtonModern: {
     flexDirection: "row",
     alignItems: "center",
@@ -419,10 +419,10 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 
-
+  // --- TRƯỜNG HỢP CHƯA ĐĂNG NHẬP (Unlogged In) ---
   unloggedInScreen: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.background, // Nền xám nhẹ
   },
   unloggedInCard: {
     alignItems: "center",
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   loginCTAButton: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.primary, // Màu nhấn
     paddingVertical: 15,
     borderRadius: 10,
     width: "100%",
