@@ -31,7 +31,7 @@ const cardSpacing = 12;
 const cardWidth = (width - screenPadding * 2 - cardSpacing) / 2;
 
 const COLORS = {
-    primaryRed: "#E53935",
+    primaryRed: "#730806",
     secondaryOrange: "#F39C12",
     background: "#F5F7FA",
     cardBackground: "#FFFFFF",
@@ -270,8 +270,6 @@ export default function HomeScreen() {
                     </View>
                 ))}
             </ScrollView>
-
-            <Text style={styles.sectionTitle}>👋 Chào mừng trở lại</Text>
 
             <Text style={styles.sectionTitle}>📂 Danh mục nổi bật</Text>
             <ScrollView

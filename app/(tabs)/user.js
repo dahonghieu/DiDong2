@@ -18,7 +18,7 @@ import NotificationModal from "../../components/common/NotificationModal";
 
 // --- Bảng màu nhất quán và tối ưu ---
 const COLORS = {
-  primary: "#FF5733",
+  primary: "#f15416",
   secondary: "#FFB300",
   background: "#F9F9F9",
   card: "#FFFFFF",
